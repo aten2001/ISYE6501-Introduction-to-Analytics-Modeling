@@ -1,0 +1,346 @@
+---
+title: "Homework 5"
+author: "Chen Yi-Ju(Ernie)"
+date: "2020/6/17"
+output: 
+  #html_document: default
+  pdf_document:
+    latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Question 11.1
+### Using the crime data set uscrime.txt from Questions 8.2, 9.1, and 10.1, build a regression model using:<br>
+### 1. Stepwise regression<br>
+### 2. Lasso<br>
+### 3. Elastic net<br>
+
+```{r ,echo = TRUE, message = FALSE, warning = FALSE}
+setwd("D:/ernie/self-study/GTxMicroMasters/Introduction to Analytics Modeling/week5/homework")
+#loading library
+library(tidyverse)
+library(caret)
+library(egg)
+library(stargazer)
+library(modelr)
+library(glmnet)
+library(foreach)
+library(FrF2)
+```
+
+```{r}
+#loading data
+crime <- read.table("uscrime.txt" , header = T)
+```
+### 1. Stepwise regression<br>
+
+```{r}
+#dividing into training and testing data sets
+set.seed(101)
+train.index <- createDataPartition(crime$Crime , p = 0.8 ,times = 1, list = F)
+train <- crime[train.index,]
+test <- crime[-train.index,]
+```
+
+First, I try using forward stepwise regression <br>
+```{r}
+#Forward stepwise
+null = lm (Crime ~1, data = train) #setting upper bound
+full = lm(Crime ~., data = train) #setting lower bound
+```
+
+Using the step function <br>
+```{r}
+#step function
+
+forward.sel <- step(null,
+                    scope = list(lower = null , upper = full),
+                    direction = "forward")
+```
+
+We can see from the progress that AIC is decreasing. <br>
+```{r}
+summary(forward.sel)
+```
+
+Testing model on test data <br>
+```{r}
+#Testing
+res.forw <- test %>%
+  add_predictions(.,forward.sel) %>%
+  select('observations' = Crime, pred) %>%
+  as.data.frame()
+
+```
+
+Summary of the results: <br>
+```{r}
+forward <- postResample(obs = res.forw$observations, pred = res.forw$pred)
+forward
+```
+We can see that the R squared  value is 58% (approx.) <br>
+Then we do the same thing with backwards stepwise <br>
+```{r ,}
+#Backwards stepwise
+backward.sel<- step( full,
+  scope = list(upper = full , lower = null),
+  direction = "backward")
+
+```
+
+
+```{r}
+summary(backward.sel)
+```
+
+```{r}
+#Testing
+res.back <- test %>%
+  add_predictions(.,backward.sel) %>%
+  select('observations' = Crime, pred) %>%
+  as.data.frame()
+backward <- postResample(obs = res.back$observations, pred = res.back$pred)
+backward
+```
+In this case the backward stepwise regression did worse than the forward stepwise regression<br>
+
+
+Finally, we do stepwise regression from both sides, starting from no parameters (null) and all parameters(full)
+```{r}
+# Stepwise regression
+step.both.1 <- step(null, scope = list(upper = full) , direction = "both")
+```
+
+```{r}
+step.both.2 <- step(full, scope = list(upper = full), direction = "both")
+```
+
+```{r}
+summary(step.both.1)
+```
+
+```{r}
+summary(step.both.2)
+```
+
+```{r}
+#Testing
+res.both.1 <- test %>%
+  add_predictions(.,step.both.1) %>%
+  select('observations' = Crime, pred) %>%
+  as.data.frame()
+res.both.2 <- test %>%
+  add_predictions(.,step.both.2) %>%
+  select('observations' = Crime, pred) %>%
+  as.data.frame()
+```
+
+```{r}
+#Prediction 
+stepwise.fromNull <- postResample(obs = res.both.1$observations, pred = res.both.1$pred)
+stepwise.fromFull <- postResample(obs = res.both.2$observations, pred = res.both.2$pred)
+```
+
+```{r}
+stepwise.fromNull
+```
+
+```{r}
+stepwise.fromFull
+```
+
+Below is the results on test data of all 4 methods: <br>
+```{r}
+data.frame(forward,backward,stepwise.fromFull,stepwise.fromNull)
+```
+
+
+### 2. Lasso<br>
+Then we try the Lasso method: <br>
+Slitting data<br>
+```{r}
+set.seed(101)
+train.index <- createDataPartition(crime$Crime , p = 0.8 ,times = 1, list = F)
+train <- crime[train.index,]
+test <- crime[-train.index,]
+```
+
+Building model <br>
+```{r}
+#modeling
+lasso <- glmnet(x = scale(as.matrix(train[,-16])), 
+                y =scale(as.matrix(train[,16]))  ,
+                family = "gaussian" , 
+                alpha = 1)
+
+
+```
+
+Finding the best lambda value through cv.glmnet <br>
+```{r}
+cv.lasso <- cv.glmnet(x = scale(as.matrix(train[,-16])), 
+                   y =scale(as.matrix(train[,16]))  ,
+                   family = "gaussian" , 
+                   alpha = 1)
+
+```
+
+
+```{r}
+best.lambda = cv.lasso$lambda.min
+best.lambda
+```
+
+Plotting <br>
+```{r}
+plot(lasso, xvar='lambda', main="Lasso")
+abline(v=log(best.lambda), col="blue", lty=5.5 )
+```
+
+Choosing the coefficients based on the lambda chosen <br>
+```{r}
+#choosing coefficients
+coef(cv.lasso, s = "lambda.min")
+select.ind = which(coef(cv.lasso, s = "lambda.min") != 0)
+select.ind = select.ind[-1]-1 # remove Intercept
+important <- colnames(train[select.ind])
+important# which one is important
+```
+
+```{r}
+#Regression model
+lasso.reg <- lm(Crime~., data = train[,c(important,"Crime")])
+summary(lasso.reg)
+```
+
+Using test data <br>
+```{r}
+res.lasso <- test %>%
+  add_predictions(.,lasso.reg) %>%
+  select('observations' = Crime, pred) %>%
+  as.data.frame()
+```
+
+Regression results on test data <br>
+```{r}
+Lasso.regression <- postResample(obs = res.lasso$observations, pred = res.lasso$pred)
+Lasso.regression
+```
+
+### 3. Elastic net<br>
+```{r}
+#divide data
+set.seed(101)
+train.index <- createDataPartition(crime$Crime , p = 0.8 ,times = 1, list = F)
+train <- crime[train.index,]
+test <- crime[-train.index,]
+```
+
+```{r}
+#Finding suitable aplpha
+a <- seq(0.05, 0.95, 0.05)
+search <- foreach(i = a, .combine = rbind) %dopar% {
+cv.elastic <- cv.glmnet(x = scale(as.matrix(train[,-16])), 
+                  y =scale(as.matrix(train[,16]))  ,
+                  family = "gaussian" , 
+                  nfold = 10, 
+                  type.measure = "deviance",
+                  paralle = TRUE, 
+                  alpha = i)
+  data.frame(cvm = cv.elastic$cvm[cv.elastic$lambda == cv.elastic$lambda.1se],
+             lambda.1se = cv.elastic$lambda.1se,
+             alpha = i)
+}
+search
+```
+
+
+```{r}
+cv <- search[search$cvm == min(search$cvm), ]
+cv
+```
+
+```{r}
+#modeling
+elastic <- glmnet(x = scale(as.matrix(train[,-16])), 
+                y =scale(as.matrix(train[,16]))  ,
+                family = "gaussian" , 
+                alpha = cv$alpha,
+                lambda = cv$lambda.1se)
+```
+
+```{r}
+#choosing coefficients
+coef(elastic, s = "lambda.min")
+```
+
+```{r}
+select.ind2 = which(coef(elastic, s = "lambda.min") != 0)
+select.ind2 = select.ind[-1]-1 # remove Intercept
+important2 <- colnames(train[select.ind2])
+important2
+```
+
+```{r}
+#Regression model
+elastic.reg <- lm(Crime~., data = train[,c(important,"Crime")])
+```
+
+```{r}
+summary(elastic.reg)
+```
+
+```{r}
+res.elastic <- test %>%
+  add_predictions(.,elastic.reg) %>%
+  select('observations' = Crime, pred) %>%
+  as.data.frame()
+```
+
+```{r}
+Elastic.regression <- postResample(obs = res.lasso$observations, pred = res.lasso$pred)
+Elastic.regression
+
+```
+
+
+
+
+## Question 12.1
+### Describe a situation or problem from your job, everyday life, current events, etc., for which a design of experiments approach would be appropriate.<br>
+
+### Answer: <br>
+One design of experiments I would implement is that of target marketing for followers of a facebook Fanpage. By using factoral design, we could target potential followers more effectively. <br>
+
+## Question 12.2
+### To determine the value of 10 different yes/no features to the market value of a house (large yard, solar roof, etc.), a real estate agent plans to survey 50 potential buyers, showing a fictitious house with different combinations of features.<br>
+```{r}
+FrF2(16,nfactors = 10, 
+     factor.names =  c("Large yard" , "solar roof" , "double restrooms" , "Garage" , "pool" ,"lawn",
+                       "security system" , "Smart house system" ,"Elevator","Walk-in closet") )
+```
+
+
+## Question 13.1
+### For each of the following distributions, give an example of data that you would expect to follow this distribution (besides the examples already discussed in class).<br>
+### a. Binomial <br>
+The chances of strucking the grand prize of a lottery. <br>
+
+### b. Geometric
+
+How many times does an average fielder successfully make a catch befor making an error. <br>
+
+### c. Poisson
+
+How many people are just late for a class, just late defined as within 5 minutes after class starts.<br>
+
+### d. Exponential
+
+How long does it take between students who are late for class.<br> 
+
+### e. Weibull
+How long does it take for a computer's battery to wear out if continuously charged.

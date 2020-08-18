@@ -1,0 +1,469 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Homework3},
+  pdfauthor={Chen Yi-Ju(Ernie)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Homework3}
+\author{Chen Yi-Ju(Ernie)}
+\date{2020/6/4}
+
+\begin{document}
+\maketitle
+
+\hypertarget{question-7.1}{%
+\subsection{Question 7.1}\label{question-7.1}}
+
+\hypertarget{describe-a-situation-or-problem-from-your-job-everyday-life-current-events-etc.-for-which-exponential-smoothing-would-be-appropriate.-what-data-would-you-need-would-you-expect-the-value-of-ux3b1-the-first-smoothing-parameter-to-be-closer-to-0-or-1-and-why}{%
+\subsubsection{Describe a situation or problem from your job, everyday
+life, current events, etc., for which exponential smoothing would be
+appropriate. What data would you need? Would you expect the value of α
+(the first smoothing parameter) to be closer to 0 or 1, and
+why?}\label{describe-a-situation-or-problem-from-your-job-everyday-life-current-events-etc.-for-which-exponential-smoothing-would-be-appropriate.-what-data-would-you-need-would-you-expect-the-value-of-ux3b1-the-first-smoothing-parameter-to-be-closer-to-0-or-1-and-why}}
+
+I would consider oil price being a good situation to use exponential
+smoothing. α would be somewhere closer to 1 than 0 because the oil
+price(under current situations) are known to have big fluncuations due
+to random events happening.
+
+\hypertarget{question-7.2}{%
+\subsection{Question 7.2}\label{question-7.2}}
+
+\hypertarget{using-the-20-years-of-daily-high-temperature-data-for-atlanta-july-through-october-from-question-6.2-file-temps.txt-build-and-use-an-exponential-smoothing-model-to-help-make-a-judgment-of-whether-the-unofficial-end-of-summer-has-gotten-later-over-the-20-years.}{%
+\subsubsection{Using the 20 years of daily high temperature data for
+Atlanta (July through October) from Question 6.2 (file temps.txt), build
+and use an exponential smoothing model to help make a judgment of
+whether the unofficial end of summer has gotten later over the 20
+years.}\label{using-the-20-years-of-daily-high-temperature-data-for-atlanta-july-through-october-from-question-6.2-file-temps.txt-build-and-use-an-exponential-smoothing-model-to-help-make-a-judgment-of-whether-the-unofficial-end-of-summer-has-gotten-later-over-the-20-years.}}
+
+\hypertarget{my-answer-is-no.-according-to-exponential-smoothing-summer-has-not-gotten-latter-over-the-20-years.this-is-the-proccess-for-proving-it.}{%
+\subsubsection{\texorpdfstring{My answer is No.~According to exponential
+smoothing, summer has not gotten latter over the 20 years.This is the
+proccess for proving
+it.}{My answer is No.~According to exponential smoothing, summer has not gotten latter over the 20 years.This is the proccess for proving it. }}\label{my-answer-is-no.-according-to-exponential-smoothing-summer-has-not-gotten-latter-over-the-20-years.this-is-the-proccess-for-proving-it.}}
+
+Setup:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{setwd}\NormalTok{(}\StringTok{"D:/ernie/self-study/GTxMicroMasters/Introduction to Analytics Modeling/week3/homework"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(magrittr)}
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\KeywordTok{library}\NormalTok{(lubridate)}
+\KeywordTok{library}\NormalTok{(corrplot)}
+\KeywordTok{library}\NormalTok{(leaps)}
+\end{Highlighting}
+\end{Shaded}
+
+turning data into time. series format
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{weather <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{read.table}\NormalTok{(}\StringTok{"temps.txt"}\NormalTok{ , }\DataTypeTok{header =}\NormalTok{ T))}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(.,}\OperatorTok{-}\StringTok{ }\NormalTok{DAY) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{unlist}\NormalTok{()}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{as.vector}\NormalTok{()}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{ts}\NormalTok{(}\DataTypeTok{start =} \DecValTok{1996}\NormalTok{ , }\DataTypeTok{end =} \DecValTok{2015}\NormalTok{ , }\DataTypeTok{frequency =} \DecValTok{100}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Graphically represented: It is hard to see actual trends
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(weather)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week-3-homework_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+Putting down the HoltWinters Function
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{HoltWinters}\NormalTok{(weather)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Holt-Winters exponential smoothing with trend and additive seasonal component.
+## 
+## Call:
+## HoltWinters(x = weather)
+## 
+## Smoothing parameters:
+##  alpha: 0.7015953
+##  beta : 0
+##  gamma: 0.6813504
+## 
+## Coefficients:
+##              [,1]
+## a    102.12556505
+## b     -0.01546985
+## s1   -10.48519724
+## s2   -12.44318212
+## s3   -10.99764581
+## s4   -12.75209947
+## s5   -12.62974056
+## s6   -11.29182605
+## s7   -10.93658628
+## s8    -5.40303859
+## s9    -6.79845771
+## s10   -3.39388173
+## s11   -6.86132351
+## s12   -6.30334825
+## s13   -9.27608984
+## s14   -8.60454327
+## s15   -9.35894641
+## s16  -11.98293559
+## s17  -10.08152712
+## s18   -5.73359214
+## s19   -4.21236012
+## s20   -6.33379226
+## s21   -5.18509908
+## s22   -1.14584131
+## s23   -2.59594123
+## s24   -2.24708371
+## s25   -1.20692084
+## s26    1.98058414
+## s27    1.13684508
+## s28    4.26424229
+## s29    4.68465208
+## s30    7.72445661
+## s31    4.97002347
+## s32    7.89317690
+## s33    3.94494859
+## s34    3.91773586
+## s35    1.96066900
+## s36    3.12215825
+## s37    3.36315823
+## s38    3.39629121
+## s39    7.73828726
+## s40    7.98122071
+## s41    8.30522935
+## s42    9.35335153
+## s43    9.59278999
+## s44    7.23771484
+## s45    7.81844143
+## s46    5.46541873
+## s47    5.04169526
+## s48    5.02802732
+## s49    5.36288062
+## s50    7.31875821
+## s51    7.81973186
+## s52    4.87303155
+## s53    6.23219406
+## s54    3.63600461
+## s55    6.98631128
+## s56    6.72090297
+## s57    5.95574278
+## s58    5.40068097
+## s59    2.13451835
+## s60    2.66065990
+## s61    1.01986035
+## s62    2.08035759
+## s63    2.76693224
+## s64    1.80908389
+## s65    3.14082126
+## s66    1.13910230
+## s67    1.42982098
+## s68    0.15996809
+## s69    0.73405805
+## s70    4.42836996
+## s71    4.11636798
+## s72    4.56871751
+## s73    4.89836713
+## s74    5.94492884
+## s75    4.02735738
+## s76    4.43237712
+## s77    4.85538584
+## s78    5.15469049
+## s79   -0.32306323
+## s80    2.61750562
+## s81   -0.96168460
+## s82    0.75065521
+## s83    1.48361721
+## s84   -1.28613918
+## s85   -0.38311462
+## s86    0.17466496
+## s87    0.76124762
+## s88    3.07396243
+## s89    2.29772241
+## s90   -0.13094343
+## s91   -0.94184454
+## s92   -1.16934790
+## s93   -1.93458425
+## s94   -5.57050542
+## s95  -11.59120257
+## s96   -7.82643736
+## s97   -3.97388600
+## s98   -7.74355298
+## s99   -5.55287173
+## s100  -7.58855363
+\end{verbatim}
+
+The main focus is here : Smoothing parameters: alpha: 0.7015953 beta : 0
+gamma: 0.6813504
+
+the beta of the Holt Winters Function is 0, indicating no overall trend,
+which matches our intuition.
+
+\hypertarget{question-8.1}{%
+\subsection{Question 8.1}\label{question-8.1}}
+
+\hypertarget{describe-a-situation-or-problem-from-your-job-everyday-life-current-events-etc.-for-which-a-linear-regression-model-would-be-appropriate.-list-some-up-to-5-predictors-that-you-might-use.}{%
+\subsubsection{Describe a situation or problem from your job, everyday
+life, current events, etc., for which a linear regression model would be
+appropriate. List some (up to 5) predictors that you might
+use.}\label{describe-a-situation-or-problem-from-your-job-everyday-life-current-events-etc.-for-which-a-linear-regression-model-would-be-appropriate.-list-some-up-to-5-predictors-that-you-might-use.}}
+
+A good opportunity would be predicting a baseball team's winning
+chances. It would be through parameters including: team average
+ERA(Earned run average) team average batting average team average
+slugging average and team average fielding percentage.
+
+\hypertarget{question-8.2}{%
+\subsection{Question 8.2}\label{question-8.2}}
+
+\hypertarget{using-crime-data-use-regression-a-useful-r-function-islm-or-glm-to-predict-the-observed-crime-rate-in-a-cityin-a-city-with-the-following-data}{%
+\subsubsection{Using crime data , use regression (a useful R function
+islm or glm) to predict the observed crime rate in a cityin a city with
+the following
+data:}\label{using-crime-data-use-regression-a-useful-r-function-islm-or-glm-to-predict-the-observed-crime-rate-in-a-cityin-a-city-with-the-following-data}}
+
+M = 14.0 So = 0 Ed = 10.0 Po1 = 12.0 Po2 = 15.5 LF = 0.640 M.F = 94.0
+Pop = 150 NW = 1.1 U1 = 0.120 U2 = 3.6 Wealth = 3200 Ineq = 20.1 Prob =
+0.04 Time = 39.0 Show your model (factors used and their coefficients),
+the software output, and the quality of fit.
+
+\hypertarget{answer-i-created-a-model-omitting-parameters-that-are-too-low-in-correlation-with-the-results-or-are-highly-correlated-with-other-parameters-making-them-un-independent.-the-model-i-created-has-an-75-r-squared-value-and-the-prediction-according-to-the-model-is-1177.978.}{%
+\subsubsection{\texorpdfstring{Answer : I created a model omitting
+parameters that are too low in correlation with the results or are
+highly correlated with other parameters, making them un-independent. The
+model I created has an 75\% R-squared value and the prediction according
+to the model is 1177.978.
+}{Answer : I created a model omitting parameters that are too low in correlation with the results or are highly correlated with other parameters, making them un-independent. The model I created has an 75\% R-squared value and the prediction according to the model is 1177.978.  }}\label{answer-i-created-a-model-omitting-parameters-that-are-too-low-in-correlation-with-the-results-or-are-highly-correlated-with-other-parameters-making-them-un-independent.-the-model-i-created-has-an-75-r-squared-value-and-the-prediction-according-to-the-model-is-1177.978.}}
+
+Read Data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{crime <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"uscrime.txt"}\NormalTok{ , }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{data.frame}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+Showing the correlation between predictors
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pl1 <-}\StringTok{ }\KeywordTok{corrplot}\NormalTok{(}\KeywordTok{cor}\NormalTok{(crime))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week-3-homework_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+We eliminate predictor P02 due to its high correlation with p01
+
+Numeric and Graphical representation of correlation with the crime
+variable
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cor_relation <-}\StringTok{ }\KeywordTok{abs}\NormalTok{(}\KeywordTok{cor}\NormalTok{(crime}\OperatorTok{$}\NormalTok{Crime , crime[,}\DecValTok{1}\OperatorTok{:}\DecValTok{15}\NormalTok{]))}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{data.frame}\NormalTok{()}
+\NormalTok{cor_relation <-}\StringTok{ }\NormalTok{cor_relation}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{gather}\NormalTok{(predictor, correlation)}
+\NormalTok{cor_relation}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    predictor correlation
+## 1          M  0.08947240
+## 2         So  0.09063696
+## 3         Ed  0.32283487
+## 4        Po1  0.68760446
+## 5        Po2  0.66671414
+## 6         LF  0.18886635
+## 7        M.F  0.21391426
+## 8        Pop  0.33747406
+## 9         NW  0.03259884
+## 10        U1  0.05047792
+## 11        U2  0.17732065
+## 12    Wealth  0.44131995
+## 13      Ineq  0.17902373
+## 14      Prob  0.42742219
+## 15      Time  0.14986606
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pl2 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ cor_relation, }\KeywordTok{aes}\NormalTok{( }\DataTypeTok{x  =}\NormalTok{ predictor , }\DataTypeTok{y =}\NormalTok{ correlation , }\DataTypeTok{fill =}\NormalTok{ correlation )) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_col}\NormalTok{()}
+\NormalTok{pl2}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week-3-homework_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+We remove NW,U1 and So due to low correlation
+
+Constructing the model:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model <-}\StringTok{ }\KeywordTok{lm}\NormalTok{ (}\DataTypeTok{data =}\NormalTok{ crime , Crime }\OperatorTok{~}\StringTok{ }\NormalTok{Ed }\OperatorTok{+}\StringTok{ }\NormalTok{Ineq }\OperatorTok{+}\StringTok{ }\NormalTok{LF }\OperatorTok{+}\StringTok{ }\NormalTok{M }\OperatorTok{+}\StringTok{ }\NormalTok{M.F }\OperatorTok{+}\NormalTok{Po1 }\OperatorTok{+}\StringTok{ }\NormalTok{Pop }\OperatorTok{+}\StringTok{ }\NormalTok{Prob  }\OperatorTok{+}\StringTok{ }\NormalTok{Time }\OperatorTok{+}\StringTok{ }\NormalTok{Ed)}
+\KeywordTok{summary}\NormalTok{(model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Crime ~ Ed + Ineq + LF + M + M.F + Po1 + Pop + Prob + 
+##     Time + Ed, data = crime)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -468.62 -100.73   -6.44  139.91  520.35 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -5189.5782  1460.9341  -3.552 0.001063 ** 
+## Ed            140.9730    57.8900   2.435 0.019823 *  
+## Ineq           68.7477    15.8765   4.330 0.000109 ***
+## LF           -609.2340  1065.0117  -0.572 0.570751    
+## M              68.3357    35.3331   1.934 0.060784 .  
+## M.F            17.8666    15.2790   1.169 0.249738    
+## Po1           126.5215    17.3893   7.276 1.22e-08 ***
+## Pop            -0.6526     1.2716  -0.513 0.610833    
+## Prob        -4006.6838  2033.8562  -1.970 0.056359 .  
+## Time            1.7858     6.6248   0.270 0.788995    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 213.8 on 37 degrees of freedom
+## Multiple R-squared:  0.7543, Adjusted R-squared:  0.6945 
+## F-statistic: 12.62 on 9 and 37 DF,  p-value: 7.275e-09
+\end{verbatim}
+
+The summary results show that R- squared is at about 75\% which is a
+good enough result. One thing to notice is however the Variables
+LF,M.F., Pop and Time are not statistically significant. Nevertheless,
+We test out the model using the given numbers:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(   }\DataTypeTok{M =} \FloatTok{14.0}\NormalTok{,}\DataTypeTok{So =} \DecValTok{0}\NormalTok{,}\DataTypeTok{Ed =} \FloatTok{10.0}\NormalTok{,}\DataTypeTok{Po1 =} \FloatTok{12.0}\NormalTok{,}
+                      \DataTypeTok{Po2 =} \FloatTok{15.5}\NormalTok{,}\DataTypeTok{LF =} \FloatTok{0.640}\NormalTok{,}\DataTypeTok{M.F =} \FloatTok{94.0}\NormalTok{ ,}\DataTypeTok{Pop =} \DecValTok{150}\NormalTok{,}
+                      \DataTypeTok{NW =} \FloatTok{1.1}\NormalTok{,}\DataTypeTok{U1 =} \FloatTok{0.120}\NormalTok{,}\DataTypeTok{U2 =} \FloatTok{3.6}\NormalTok{,}\DataTypeTok{Wealth =} \DecValTok{3200}\NormalTok{,}\DataTypeTok{Ineq =} \FloatTok{20.1}\NormalTok{,}\DataTypeTok{Prob =} \FloatTok{0.04}\NormalTok{,}\DataTypeTok{Time =} \FloatTok{39.0}
+\NormalTok{                      )}
+\KeywordTok{predict}\NormalTok{(model,test)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        1 
+## 1177.978
+\end{verbatim}
+
+Therefore my prediction is 1177.978.
+
+\end{document}

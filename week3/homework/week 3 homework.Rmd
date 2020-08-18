@@ -1,0 +1,138 @@
+---
+title: "Homework3"
+author: "Chen Yi-Ju(Ernie)"
+date: "2020/6/4"
+output:   
+  #html_document: default
+  pdf_document:
+    latex_engine: xelatex
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question 7.1
+### Describe a situation or problem from your job, everyday life, current events, etc., for which exponential smoothing would be appropriate. What data would you need? Would you expect the value of α (the first smoothing parameter) to be closer to 0 or 1, and why?
+
+<font size="4">I would consider oil price being a good situation to use exponential smoothing. α would  be  somewhere closer to 1 than 0 because the oil price(under current situations) are known to have big fluncuations due to random events happening.<font/>
+
+## Question 7.2
+### Using the 20 years of daily high temperature data for Atlanta (July through October) from Question 6.2 (file temps.txt), build and use an exponential smoothing model to help make a judgment of whether the unofficial end of summer has gotten later over the 20 years.
+
+### My answer is No. According to exponential smoothing, summer has not gotten latter over the 20 years.This is the proccess for proving it.<br>
+
+Setup:
+```{r ,echo = TRUE, message = FALSE, warning = FALSE}
+setwd("D:/ernie/self-study/GTxMicroMasters/Introduction to Analytics Modeling/week3/homework")
+library(magrittr)
+library(tidyverse)
+library(lubridate)
+library(corrplot)
+library(leaps)
+```
+
+turning data into time. series format 
+```{r}
+weather <- data.frame(read.table("temps.txt" , header = T))%>%
+  select(.,- DAY) %>%
+  unlist()%>%
+  as.vector()%>%
+  ts(start = 1996 , end = 2015 , frequency = 100)
+```
+
+
+Graphically represented: It is hard to see actual trends 
+```{r}
+plot(weather)
+```
+
+Putting down the HoltWinters Function
+```{r}
+HoltWinters(weather)
+```
+
+The main focus is here :<br>
+Smoothing parameters:<br>
+ alpha: 0.7015953
+ beta : 0
+ gamma: 0.6813504
+ 
+ 
+the beta of the Holt Winters Function is 0, indicating no overall trend, which matches our intuition.
+
+
+## Question 8.1
+### Describe a situation or problem from your job, everyday life, current events, etc., for which a linear regression model would be appropriate. List some (up to 5) predictors that you might use.
+
+A good opportunity would be predicting a baseball team's winning chances. It would be through parameters including: <br>
+team average ERA(Earned run average)<br>
+team average batting average<br>
+team average slugging average<br>
+and team average fielding percentage.<br>
+
+## Question 8.2
+### Using crime data , use regression (a useful R function islm or glm) to predict the observed crime rate in a cityin a city with the following data:
+M = 14.0 <br>
+So = 0 <br>
+Ed = 10.0 <br>
+Po1 = 12.0 <br>
+Po2 = 15.5 <br>
+LF = 0.640 <br>
+M.F = 94.0 <br>
+Pop = 150 <br>
+NW = 1.1 <br>
+U1 = 0.120 <br>
+U2 = 3.6 <br>
+Wealth = 3200 <br>
+Ineq = 20.1 <br>
+Prob = 0.04 <br>
+Time = 39.0 <br>
+Show your model (factors used and their coefficients), the software output, and the quality of fit. <br>
+
+### Answer : I created a model omitting parameters that are too low in correlation with the results or are highly correlated with other parameters, making them un-independent. The model I created has an 75% R-squared value and the prediction according to the model is 1177.978. <br/>
+
+Read Data
+```{r}
+crime <- read.table("uscrime.txt" , header = TRUE)%>%
+  data.frame()
+```
+
+Showing the correlation between predictors
+```{r}
+pl1 <- corrplot(cor(crime))
+```
+
+We eliminate predictor P02 due to its  high correlation with p01<br/>
+
+Numeric and Graphical representation of correlation with the crime variable
+```{r}
+cor_relation <- abs(cor(crime$Crime , crime[,1:15]))%>%
+  data.frame()
+cor_relation <- cor_relation%>%
+  gather(predictor, correlation)
+cor_relation
+pl2 <- ggplot(data = cor_relation, aes( x  = predictor , y = correlation , fill = correlation )) +
+  geom_col()
+pl2
+```
+
+We remove NW,U1 and So due to low correlation <br/>
+
+Constructing the model:
+```{r}
+model <- lm (data = crime , Crime ~ Ed + Ineq + LF + M + M.F +Po1 + Pop + Prob  + Time + Ed)
+summary(model)
+```
+
+The summary results show that R- squared is at about 75% which is a good enough result. One thing to notice is however the Variables LF,M.F., Pop and Time are not statistically significant.<br>
+Nevertheless, We test out the model using the given numbers:<br>
+```{r}
+test <- data.frame(   M = 14.0,So = 0,Ed = 10.0,Po1 = 12.0,
+                      Po2 = 15.5,LF = 0.640,M.F = 94.0 ,Pop = 150,
+                      NW = 1.1,U1 = 0.120,U2 = 3.6,Wealth = 3200,Ineq = 20.1,Prob = 0.04,Time = 39.0
+                      )
+predict(model,test)
+```
+
+Therefore my prediction is 1177.978.
+
